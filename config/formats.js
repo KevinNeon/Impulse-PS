@@ -376,9 +376,9 @@ exports.Formats = [
 	},
 
 	///////////////////////////////////////////////////////
-	// Wavelength Metagames
+	// Server Metagames
 	{
-		section: 'Wavelength Metagames',
+		section: '' + serverName + ' Metagames',
 		column: 2,
 	},
 	{
@@ -432,7 +432,7 @@ exports.Formats = [
 	{
 		name: "[Gen 7] Super Staff Bros",
 
-		mod: 'wlssb',
+		mod: 'ssb',
 		team: 'randomSeasonalRegStaff',
 		ruleset: ['HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod'],
 		onBegin: function () {

@@ -9,7 +9,7 @@ const DEFAULT_AMOUNT = 0;
 let DOUBLE_XP = false;
 
 const minLevelExp = 15;
-const multiply = 1.9;
+const multiply = 2.3;
 
 function isExp(exp) {
 	let numExp = Number(exp);
@@ -64,9 +64,8 @@ function addExp(user, room, amount) {
 				let reward = '';
 				switch (level) {
 				case 5:
-					Economy.logTransaction(user.userid + ' received a profile background and profile music for reaching level ' + level + '.');
-					Monitor.log(user.userid + ' has earned a profile background and profile music for reaching level ' + level + '!');
-					reward = 'a Profile Background and Profile Music. To claim your profile background and profile music, contact a global staff member.';
+					Economy.writeMoney(user.userid, 5);
+					reward = '50 ' + currencyPlural + '.';
 					break;
 				case 10:
 					Economy.logTransaction(user.userid + ' received a custom avatar for reaching level ' + level + '.');

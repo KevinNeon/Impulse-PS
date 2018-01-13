@@ -92,7 +92,18 @@ if (Config.watchconfig) {
 
 global.WL = {};
 
+// Using mongodb to store data with nef
+// global.Db = require('nef')(require('nef-mongo')('yourMongoURI'));
+
+// Using monodb to store data with origin db
+// global.Sb = require('origindb')('yourMongoURI', { adapter: 'mongo'});
+
 global.Db = require('nef')(require('nef-fs')('config/db'));
+
+// Opitional databases for impulse
+global.Sb = require('origindb')('config/sb');
+
+global.sqlite3 = require('sqlite3');
 
 global.Monitor = require('./monitor');
 
