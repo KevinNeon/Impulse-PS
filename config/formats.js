@@ -378,7 +378,7 @@ exports.Formats = [
 	///////////////////////////////////////////////////////
 	// Server Metagames
 	{
-		section: '' + serverName + ' Metagames',
+		section: '' + Config.serverName + ' Metagames',
 		column: 2,
 	},
 	{
