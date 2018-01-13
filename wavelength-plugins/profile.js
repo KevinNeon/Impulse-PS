@@ -190,7 +190,6 @@ exports.commands = {
 					'<br />Title Hex Color: ' + color
 				);
 			}
-			this.logModAction(user.name + " set a custom title to " + userid + "'s profile.");
 			Monitor.log(user.name + " set a custom title to " + userid + "'s profile.");
 			return this.sendReply("Title '" + title + "' and color '" + color + "' for " + userid + "'s custom title have been set.");
 		},
@@ -211,7 +210,6 @@ exports.commands = {
 					'|html|' + WL.nameColor(user.name, true) + " has removed your custom title."
 				);
 			}
-			this.logModAction(user.name + " removed " + userid + "'s custom title.");
 			Monitor.log(user.name + " removed " + userid + "'s custom title.");
 			return this.sendReply(userid + "'s custom title and title color were removed from the server memory.");
 		},
@@ -230,59 +228,6 @@ exports.commands = {
 			);
 		},
 	},
-
-	/*fc: 'friendcode',
-	friendcode: {
-		add: 'set',
-		set: function (target, room, user) {
-			if (room.battle) return this.errorReply("Please use this command outside of battle rooms.");
-			if (!user.autoconfirmed) return this.errorReply("You must be autoconfirmed to use this command.");
-			if (!target) return this.parse('/help', true);
-			let fc = target;
-			fc = fc.replace(/-/g, '');
-			fc = fc.replace(/ /g, '');
-			if (isNaN(fc)) {
-				return this.errorReply("Your friend code needs to contain only numerical characters.");
-			}
-			if (fc.length < 12) return this.errorReply("Your friend code needs to be 12 digits long.");
-			fc = fc.slice(0, 4) + '-' + fc.slice(4, 8) + '-' + fc.slice(8, 12);
-			Db("friendcode").set(toId(user), fc);
-			return this.sendReply("Your friend code: " + fc + " has been saved to the server.");
-		},
-
-		remove: 'delete',
-		delete: function (target, room, user) {
-			if (room.battle) return this.errorReply("Please use this command outside of battle rooms.");
-			if (!user.autoconfirmed) return this.errorReply("You must be autoconfirmed to use this command.");
-			if (!target) {
-				if (!Db("friendcode").has(toId(user))) return this.errorReply("Your friend code isn't set.");
-				Db("friendcode").delete(toId(user));
-				return this.sendReply("Your friend code has been deleted from the server.");
-			} else {
-				if (!this.can('lock')) return false;
-				let userid = toId(target);
-				if (!Db("friendcode").has(userid)) return this.errorReply(userid + " hasn't set a friend code.");
-				Db("friendcode").delete(userid);
-				return this.sendReply(userid + "'s friend code has been deleted from the server.");
-			}
-		},
-
-		'': 'help',
-		help: function (target, room, user) {
-			if (room.battle) return this.errorReply("Please use this command outside of battle rooms.");
-			if (!user.autoconfirmed) return this.errorReply("You must be autoconfirmed to use this command.");
-			return this.sendReplyBox(
-				'<center><code>/friendcode</code> commands<br />' +
-				'All commands are nestled under the namespace <code>friendcode</code>.</center>' +
-				'<hr width="100%">' +
-				'<code>[add|set] [code]</code>: Sets your friend code. Must be in the format 111111111111, 1111 1111 1111, or 1111-1111-1111.' +
-				'<br />' +
-				'<code>[remove|delete]</code>: Removes your friend code. Global staff can include <code>[username]</code> to delete a user\'s friend code.' +
-				'<br />' +
-				'<code>help</code>: Displays this help command.'
-			);
-		},
-	},*/
 
 	favoritetype: 'type',
 	type: {
@@ -535,36 +480,6 @@ exports.commands = {
 		"/pokemon delete - Removes your Favorite Pokemon.",
 	],
 
-	/*pnature: "nature",
-	nature: {
-		add: "set",
-		set: function (target, room, user) {
-			if (!target) this.parse("/naturehelp");
-			let nature = Dex.getNature(target);
-			if (!nature.exists) return this.errorReply("This is not a nature. Check your spelling?");
-			Sb("nature").set(user.userid, nature.name);
-			return this.sendReply("You have successfully set your nature onto your profile.");
-		},
-
-		del: "delete",
-		take: "delete",
-		remove: "delete",
-		delete: function (target, room, user) {
-			if (!Sb("nature").has(user.userid)) return this.errorReply("Your nature has not been set.");
-			Sb("nature").delete(user.userid);
-			return this.sendReply("Your nature has been deleted from your profile.");
-		},
-
-		"": "help",
-		help: function (target, room, user) {
-			this.parse("/naturehelp");
-		},
-	},
-	naturehelp: [
-		"/pnature set [nature] - Sets your Profile Nature.",
-		"/pnature delete - Removes your Profile Nature.",
-	],*/
-
 	'!profile': true,
 	profile: function (target, room, user) {
 		target = toId(target);
@@ -727,8 +642,8 @@ exports.commands = {
 		"/pteam help - Shows profile team commands.",
 		"/pokemon set [Pokemon] - Set your Favorite Pokemon onto your profile.",
 		"/pokemon delete - Delete your Favorite Pokemon from your profile.",
-		"/ptype set [type] - Set your favorite type.",
-		"/ptype delete - Delete your favorite type.",
+		"/type set [type] - Set your favorite type.",
+		"/type delete - Delete your favorite type.",
 		"/pmusic [user], [song], [title] - Sets a user's profile song. Requires + or higher.",
 		"/pmusic take [user] - Removes a user's profile song. Requires + or higher.",
 		"/pbg set [user], [link] - Sets the user's profile background. Requires + or higher.",
