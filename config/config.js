@@ -495,4 +495,4 @@ exports.grouplist = [
 		symbol: '!',
 		punishgroup: 'MUTE',
 	},
-]; 
+];
