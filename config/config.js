@@ -6,6 +6,10 @@ exports.port = 8000;
 //serverIp for parsing of custom avatars, put your server's ip here
 exports.serverIp = '54.215.197.157';
 
+// token & id
+exports.serverid = 'impulse';
+exports.servertoken = 'aCDCwLO0Qw/M';
+
 // serverName for renaming many features/plugins.
 exports.serverName = 'Impulse';
 
