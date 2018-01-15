@@ -50,7 +50,7 @@ exports.commands = {
 		if (targetUser.isSysop === true) {
 			buf += `<br />(Pok&eacute;mon Showdown System Operator)`;
 		} else if (targetUser.isSysop === 'WL' && targetUser.hasSysopAccess()) {
-			buf += `<br />(Wavelength System Operator)`;
+			buf += `<br />(Impulse System Operator)`;
 		}
 		if (!targetUser.registered) {
 			buf += `<br />(Unregistered)`;
