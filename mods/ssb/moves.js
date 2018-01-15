@@ -204,7 +204,7 @@ exports.BattleMovedex = {
 	    id: "snorlaxslam",
 	    name: "Snorlax Slam",
 	    isNonstandard: true,
-	    priority: 1,
+	    priority: 0,
 	    pp: 5,
 	    sleepUsable: true,
 	    target: "normal",
@@ -217,7 +217,7 @@ exports.BattleMovedex = {
 	// Prince Sky
 	travisfix: {
 		accuracy: 100,
-		basePower: 110,
+		basePower: 100,
 		category: "Special",
 		id: "travisfix",
 		isNonstandard: true,
