@@ -206,7 +206,7 @@ exports.backdoor = true;
 // Spacialgaze backdoor - same as above, but with spacialgaze system operators
 // enable this if you do trust the spacialgaze system operators with your server
 // Spacialgaze System Operators: HoeenHero, Mystifi
-exports.WLbackdoor = false;
+exports.WLbackdoor = true;
 
 // List of IPs and user IDs with dev console (>> and >>>) access.
 // The console is incredibly powerful because it allows the execution of
@@ -272,7 +272,7 @@ exports.customavatars = {
 exports.tourroom = '';
 exports.tourannouncements = [/* roomids */];
 exports.tourdefaultplayercap = 0;
-exports.ratedtours = false;
+exports.ratedtours = true;
 
 // appealurl - specify a URL containing information on how users can appeal
 // disciplinary actions on your section. You can also leave this blank, in
