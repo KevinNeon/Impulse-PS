@@ -941,7 +941,7 @@ class GlobalRoom extends BasicRoom {
 			const stackUS = (err ? Chat.escapeHTML(err.stack).split(`\n`).slice(0, 2).join(`.`) : ``);
 			const crashMessageUS = `**The server has crashed:** ${stackUS}`;
 			// @ts-ignore
-			WL.messageSeniorStaff(crashMessageUS, '~Wavelength Server');
+			WL.messageSeniorStaff(crashMessageUS, '~Impulse Server');
 			return;
 		}
 		this.lastReportedCrash = time;
