@@ -184,9 +184,9 @@ exports.BattleAbilities = {
 	readytostab: {
 		id: "readytostab",
 		name: "Ready to Stab",
-		desc: "Boosts user's Atk and Spe by 2 stages",
+		desc: "Boosts user's Atk and Spe by 1 stage",
 		onStart: function (pokemon) {
-			this.boost({atk: 2, spe: 2});
+			this.boost({atk: 1, spe: 1});
 		},
 	},
 	//Serperiorater
@@ -223,7 +223,7 @@ exports.BattleAbilities = {
 	sandbox: {
 		id: "sandbox",
 		name: "Sandbox",
-		desc: "Sets up Trick Room, Sandstorm, Reflect, Light Screen & Gravity on switch in.",
+		desc: "Sets up Trick Room, Sandstorm & Gravity on switch in.",
 		onStart: function (pokemon) {
 			this.useMove('trickroom', pokemon);
 			this.useMove('reflect', pokemon);
@@ -338,6 +338,62 @@ exports.BattleAbilities = {
 			let target = pokemon.side.foe.active[0];
 			if (target.hasType('Ghost') || target.hasType('Dark')) {
 				return this.chainModify(2);
+			}
+		},
+	},
+	//bunnery5
+	muscles: {
+		id: "muscles",
+		name: "Muscles",
+		desc: "+3 defense, +3 Special defense, -3 attack, +1.5 special attack on switch in + simple.",
+		onStart: function (pokemon) {
+			this.boost({atk: -4, def: 4, spa: 1, spd: 4});
+		},
+		onBoost: function (boost, target, source, effect) {
+			if (effect && effect.id === 'zpower') return;
+			for (let i in boost) {
+				boost[i] *= 2;
+			}
+		},
+	},
+	//Lycanium Z
+	"bloodytears": {
+		desc: "Lowers Opponents offensive stats by 1.",
+		onStart: function (pokemon) {
+			this.add('-ability', pokemon, 'Bloody Tears');
+			this.add('-message', "You feel fear... yet you cannot look away...");
+			let foeactive = pokemon.side.foe.active;
+			let activated = false;
+			for (let i = 0; i < foeactive.length; i++) {
+				if (!foeactive[i] || !this.isAdjacent(foeactive[i], pokemon)) continue;
+				if (!activated) {
+					activated = true;
+				}
+				if (foeactive[i].volatiles['substitute']) {
+					this.add('-immune', foeactive[i], '[msg]');
+				} else {
+					this.boost({atk: -1, spa: -1}, foeactive[i], pokemon);
+				}
+			}
+		},
+		id: "bloodytears",
+		name: "Bloody Tears",
+	},
+	//SnorlaxTheRain
+	"scraroom": {
+		id: "scraroom",
+		name: "Scraroom",
+		desc: "Combination of Trick Room & Scrappy",
+		shortDesc: "Trick Room + Scrappy",
+		onStart: function (pokemon) {
+			this.useMove('trickroom', pokemon);
+		},
+		onModifyMovePriority: -5,
+		onModifyMove: function (move) {
+			if (!move.ignoreImmunity) move.ignoreImmunity = {};
+			if (move.ignoreImmunity !== true) {
+				move.ignoreImmunity['Fighting'] = true;
+				move.ignoreImmunity['Normal'] = true;
 			}
 		},
 	},
