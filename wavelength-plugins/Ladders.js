@@ -1,7 +1,7 @@
-/***************************
-* Ladders By Prince Sky *
-* Using Economy for logging *
-****************************/
+/********************
+* Opitional Ladders *
+* By Prince Sky     *
+********************/
 'use strict';
 
 exports.commands = {
@@ -15,19 +15,19 @@ exports.commands = {
 		let keys = Db.unoladder.keys().map(name => {
 			return {name: name, wins: Db.unoladder.get(name)};
 		});
-		if (!keys.length) return this.sendReplyBox("Uno ladder is empty.");
+		if (!keys.length) return this.sendReplyBox('Uno ladder is empty.');
 		keys.sort(function (a, b) { return b.wins - a.wins; });
 		this.sendReplyBox(rankLadder('Uno Kings', unoWins, keys.slice(0, target), 'wins') + '</div>');
 	},
 	resetunoladder: 'rul',
 	rul: function (target, room, user) {
 		if (!this.can('roomowner')) return false;
-		if (!target) return this.parse('/help rul');
-		target = toId(target);
-		Db.unoladder.remove(target);
-		this.sendReply(target + " now has 0 uno wins.");
+		for (const userid of Db.unoladder.keys()) {
+			Db.unoladder.remove(userid);
+		}
+		this.sendReply('Uno ladder has reset.');
 	},
-	rulhelp: ['/rul [user] - Resets target user\'s uno wins to 0. Requires: &, ~'],
+	rulhelp: ['/rul - Reset uno ladder. Require: & or higher'],
 
 	'!tourladder': true,
 	tourladder: function (target, room, user) {
@@ -43,13 +43,14 @@ exports.commands = {
 		keys.sort(function (a, b) { return b.wins - a.wins; });
 		this.sendReplyBox(rankLadder('Tournament Masters', tourWins, keys.slice(0, target), 'wins') + '</div>');
 	},
+
 	resettourladder: 'rtl',
 	rtl: function (target, room, user) {
 		if (!this.can('roomowner')) return false;
-		if (!target) return this.parse('/help rtl');
-		target = toId(target);
-		Db.tourladder.remove(target);
-		this.sendReply(target + " now has 0 tour wins.");
+		for (const userid of Db.tourladder.keys()) {
+			Db.tourladder.remove(userid);
+		}
+		this.sendReply('Tour ladder has reset.');
 	},
-	rtlhelp: ['/rtl [user] - Resets target user\'s tour wins to 0. Requires: &, ~'],
+	rtlhelp: ['/rtl - Reset tournaments ladder. Require: & or higher'],
 };
