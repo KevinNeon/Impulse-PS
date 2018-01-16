@@ -1,5 +1,5 @@
 /********************
-* Opitional Ladders *
+* Optional Ladders *
 * By Prince Sky     *
 ********************/
 'use strict';
