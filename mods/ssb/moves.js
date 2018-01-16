@@ -302,7 +302,7 @@ exports.BattleMovedex = {
 		category: "Physical",
 		id: "gettingtrolled",
 		isNonstandard: true,
-		basePower: 90,
+		basePower: 60,
 		name: "Getting Trolled",
 		pp: 20,
 		secondary: {
@@ -476,6 +476,7 @@ exports.BattleMovedex = {
 		pp: 5,
 		priority: 1,
 		onPrepareHit: function (target, source) {
+			this.attrLastMove('[still]');
 			this.add('-anim', source, "Brick Break", source);
 			this.add('-anim', source, "Shell Smash", source);
 		},
@@ -595,7 +596,7 @@ exports.BattleMovedex = {
 	mosmerobeam: {
 		category: "Special",
 		accuracy: 80,
-		basePower: 130,
+		basePower: 80,
 		id: "mosmerobeam",
 		isViable: true,
 		isNonstandard: true,
@@ -857,4 +858,5 @@ exports.BattleMovedex = {
 		zMoveBoost: {spa: 1},
 		contestType: "Clever",
 	},
+
 };
