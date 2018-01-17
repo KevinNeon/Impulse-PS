@@ -1,4 +1,4 @@
-'use strict';
+A'use strict';
 
 const BRACKET_MINIMUM_UPDATE_INTERVAL = 2 * 1000;
 const AUTO_DISQUALIFY_WARNING_TIMEOUT = 30 * 1000;
@@ -943,6 +943,7 @@ class Tournament {
 		let tourSize = this.generator.users.size;
 
 		if ((tourSize >= sizeRequiredToEarn) && this.room.isOfficial) {
+			Db.tourladder.set(wid, 1);
 			let firstMoney = Math.round(tourSize / 4);
 			if (firstMoney < 2) firstMoney = 2;
 			if (Db.userBadges.has(wid) && Db.userBadges.get(wid).indexOf('Tournament Champion') > -1) firstMoney = Math.ceil(firstMoney * 1.5);
