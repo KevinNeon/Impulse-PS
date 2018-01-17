@@ -1,7 +1,8 @@
 'use strict';
 
 class Wheel {
-	constructor(wheelmulti, wheelHost, wheel, wheelValue) {		this.wheelMulti = wheelmulti;
+	constructor(wheelmulti, wheelHost, wheel, wheelValue) {
+		this.wheelMulti = wheelmulti;
 		this.wheelHost = wheelHost;
 		this.wheel = wheel;
 		this.wheelValue = wheelValue;
