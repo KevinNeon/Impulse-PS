@@ -85,7 +85,7 @@ exports.commands = {
 		let targetUser = this.targetUser;
 		if (target.length > 19) return this.errorReply("' User" + this.targetUsername + "' not found.");
 		if (!targetUser) return this.errorReply("User '" + this.targetUsername + "'not found.");
-		this.addModCommand(targetUser.name + " was kicked from the server by " + user.name + ".");
+		this.addModAction(targetUser.name + " was kicked from the server by " + user.name + ".");
 		targetUser.disconnectAll();
 	},
 	kickserverhelp: ["/kickserver OR /ks [username] - kick an user from the server. Requires: @ & ~"],
