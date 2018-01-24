@@ -419,14 +419,13 @@ exports.commands = {
 		add: "set",
 		give: "set",
 		set: function (target, room, user) {
-			if (!this.can('ban')) return false;
+			if (!this.can('lock')) return false;
 			let parts = target.split(',');
 			let targ = parts[0].toLowerCase().trim();
 			if (!parts[2]) return this.errorReply('/musichelp');
 			let link = parts[1].trim();
 			let title = parts[2].trim();
-			Sb("music").set([targ, 'link'], link);
-			Sb("music").set([targ, 'title'], title);
+			Db.music.set(targ, {'link': link, 'title': title});
 			this.sendReply(`${targ}'s song has been set to: `);
 			this.parse(`/profile ${targ}`);
 		},
@@ -434,11 +433,11 @@ exports.commands = {
 		take: "delete",
 		remove: "delete",
 		delete: function (target, room, user) {
-			if (!this.can('ban')) return false;
+			if (!this.can('lock')) return false;
 			let targ = target.toLowerCase();
 			if (!target) return this.parse('/musichelp');
-			if (!Sb("music").has(targ)) return this.errorReply('This user does not have any music on their profile.');
-			Sb("music").delete(targ);
+			if (!Db.music.has(targ)) return this.errorReply('This user does not have any music on their profile.');
+			Db.music.remove(targ);
 			return this.sendReply('This user\'s profile music has been deleted.');
 		},
 
@@ -448,8 +447,8 @@ exports.commands = {
 		},
 	},
 	musichelp: [
-		"/pmusic set [user], [link], [title of song] - Sets a user's profile music.",
-		"/pmusic take [user] - Removes a user's profile music.",
+		"/music set [user], [link], [title of song] - Sets a user's profile music.",
+		"/music take [user] - Removes a user's profile music.",
 	],
 
 	pokemon: {
@@ -598,43 +597,51 @@ exports.commands = {
 		    return '' + poke + '';
 		}
 
-		function song(fren) {
-			let song = Sb("music").get([fren, 'link']);
-			let title = Sb("music").get([fren, 'title']);
-			if (!Sb("music").has(fren)) return '';
-			return '<acronym title="' + title + '"><br /><audio src="' + song + '" controls="" style="width:100%;"></audio></acronym>';
+		function song(user) {
+			if (!Db.music.has(user)) return '';
+			let song = Db.music.get(user)['link'];
+			let title = Db.music.get(user)['title'];
+			return `<acronym title="${title}"><br /><audio src="${song}" controls="" style="width:100%;"></audio></acronym>`;
 		}
 
 		function showProfile() {
 			Economy.readMoney(toId(username), currency => {
 				let profile = ``;
 				profile += `${background(toId(username))} ${showBadges(toId(username))}`;
-				profile += `<img src="${avatar}" height="80" width="80" align="left">`;
-				profile += `&nbsp;${pColor(toId(username))}<b>Name:</b></font> ${WL.nameColor(username, true)}&nbsp; ${getFlag(toId(username))} ${showTitle(username)}<br />`;
-				profile += `&nbsp;${pColor(toId(username))}<b>Group:</b> ${userGroup}</font> ${devCheck(username)} ${vipCheck(username)}<br />`;
+				profile += `<div style="display: inline-block; width: 6.5em; height: 100%; vertical-align: top"><img src="${avatar}" height="80" width="80" align="left"></div>`;
+				profile += `<div style="display: inline-block">&nbsp;${pColor(toId(username))}<b>Name:</b></font> ${WL.nameColor(username, true)}&nbsp; ${getFlag(toId(username))} ${showTitle(username)}<br />`;
+		    	profile += `&nbsp;${pColor(toId(username))}<b>Group:</b> ${userGroup}</font> ${devCheck(username)} ${vipCheck(username)}<br />`;
 				//profile += `&nbsp;${pColor(toId(username))}<b>Registered:</b> ${regdate}</font><br />`;
 				profile += `&nbsp;${pColor(toId(username))}<b>${currencyPlural}:</b> ${currency}</font><br />`;
-				profile += `&nbsp;${pColor(toId(username))}<b>Favorite Pokemon:</b> ${pPokemon(toId(username))}&nbsp;&nbsp;&nbsp;<b>Favorite Type:</b> ${pType(toId(username))}</font><br />`;
-				/*if (Db("nature").has(toId(username))) {
-					profile += `&nbsp;${pColor(toId(username))}<b>Nature:</b> ${Db("nature").get(toId(username))}</font><br />`;
-				}*/
-				/*if (Server.getFaction(toId(username))) {
+				if (Db.pokemon.has(toId(username))) {
+					profile += `&nbsp;${pColor(toId(username))}<b>Favorite Pokemon:</b> ${Db.pokemon.get(toId(username))}</font><br />`;
+				}
+				if (Db.type.has(toId(username))) {
+					profile += `&nbsp;${pColor(toId(username))}<b>Favorite Type:</b></font> <img src="https://www.serebii.net/pokedex-bw/type/${Db.type.get(toId(username))}.gif"><br />`;
+				}
+				if (Db.nature.has(toId(username))) {
+					profile += `&nbsp;${pColor(toId(username))}<b>Nature:</b> ${Db.nature.get(toId(username))}</font><br />`;
+				}
+				profile += `&nbsp;${pColor(toId(username))}<b>EXP Level:</b> ${WL.level(toId(username))}</font><br />`;
+		    	/*if (Server.getFaction(toId(username))) {
 					profile += `&nbsp;${pColor(toId(username))}<b>Faction:</b> ${Server.getFaction(toId(username))}</font><br />`;
 				}*/
-				profile += `&nbsp;${pColor(toId(username))}<b>EXP Level:</b> ${WL.level(toId(username))}</font><br />`;
-				/*if (online && lastActive(toId(username))) {
+		    	/*if (online && lastActive(toId(username))) {
 					profile += `&nbsp;${pColor(toId(username))}<b>Last Activity:</b> ${lastActive(toId(username))}</font><br />`;
 				}*/
 				profile += `&nbsp;${pColor(toId(username))}<b>Last Seen:</b> ${getLastSeen(toId(username))}</font><br />`;
-				/*if (Db("friendcode").has(toId(username))) {
-					profile += `&nbsp;${pColor(toId(username))}<b>Friend Code:</b> ${Db("friendcode").get(toId(username))}</font><br />`;
-				}*/
+				if (Db.friendcodes.has(toId(username))) {
+					profile += `&nbsp;${pColor(toId(username))}<b>Friend Code:</b> ${Db.friendcodes.get(toId(username))}</font><br />`;
+				}
 				profile += `&nbsp;${showTeam(toId(username))}<br />`;
-				profile += `&nbsp;${song(toId(username))}</div>`;
+				profile += `&nbsp;${song(toId(username))}<br />`;
+				profile += `&nbsp;</div>`;
+				profile += `<br clear="all">`;
 				self.sendReplyBox(profile);
 			});
 		}
 	},
+
 
 	profilehelp: [
 		"/profile [user] - Shows a user's profile. Defaults to yourself.",
