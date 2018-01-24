@@ -425,7 +425,7 @@ exports.commands = {
 			if (!parts[2]) return this.errorReply('/musichelp');
 			let link = parts[1].trim();
 			let title = parts[2].trim();
-			Db.music.set(targ, {'link': link, 'title': title});
+			Sb.music.set(targ, {'link': link, 'title': title});
 			this.sendReply(`${targ}'s song has been set to: `);
 			this.parse(`/profile ${targ}`);
 		},
@@ -436,8 +436,8 @@ exports.commands = {
 			if (!this.can('lock')) return false;
 			let targ = target.toLowerCase();
 			if (!target) return this.parse('/musichelp');
-			if (!Db.music.has(targ)) return this.errorReply('This user does not have any music on their profile.');
-			Db.music.remove(targ);
+			if (!Sb.music.has(targ)) return this.errorReply('This user does not have any music on their profile.');
+			Sb.music.remove(targ);
 			return this.sendReply('This user\'s profile music has been deleted.');
 		},
 
@@ -598,9 +598,9 @@ exports.commands = {
 		}
 
 		function song(user) {
-			if (!Db.music.has(user)) return '';
-			let song = Db.music.get(user)['link'];
-			let title = Db.music.get(user)['title'];
+			if (!Sb.music.has(user)) return '';
+			let song = Sb.music.get(user)['link'];
+			let title = Sb.music.get(user)['title'];
 			return `<acronym title="${title}"><br /><audio src="${song}" controls="" style="width:100%;"></audio></acronym>`;
 		}
 
