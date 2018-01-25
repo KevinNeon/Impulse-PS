@@ -425,7 +425,7 @@ exports.commands = {
 			if (!parts[2]) return this.errorReply('/musichelp');
 			let link = parts[1].trim();
 			let title = parts[2].trim();
-			Sb.music.set(targ, {'link': link, 'title': title});
+			Db.music.set(targ, {'link': link, 'title': title});
 			this.sendReply(`${targ}'s song has been set to: `);
 			this.parse(`/profile ${targ}`);
 		},
@@ -436,8 +436,8 @@ exports.commands = {
 			if (!this.can('lock')) return false;
 			let targ = target.toLowerCase();
 			if (!target) return this.parse('/musichelp');
-			if (!Sb.music.has(targ)) return this.errorReply('This user does not have any music on their profile.');
-			Sb.music.remove(targ);
+			if (!Db.music.has(targ)) return this.errorReply('This user does not have any music on their profile.');
+			Db.music.remove(targ);
 			return this.sendReply('This user\'s profile music has been deleted.');
 		},
 
@@ -450,6 +450,7 @@ exports.commands = {
 		"/music set [user], [link], [title of song] - Sets a user's profile music.",
 		"/music take [user] - Removes a user's profile music.",
 	],
+
 
 	pokemon: {
 		add: "set",
