@@ -229,7 +229,7 @@ exports.commands = {
 		},
 	},
 
-	favoritetype: 'type',
+	favoritetype: 'ptype',
 	type: {
 		add: "set",
 		set: function (target, room, user) {
@@ -451,7 +451,7 @@ exports.commands = {
 		"/music take [user] - Removes a user's profile music.",
 	],
 
-
+	pokemon: 'ppokemon',
 	pokemon: {
 		add: "set",
 		set: function (target, room, user) {
@@ -586,13 +586,13 @@ exports.commands = {
 			return '<font color="' + color + '">';
 		}
 
-		function Type(user) {
+		function ptype(user) {
 		    let type = Sb("type").get(user);
 		    if (!Sb("type").has(user)) return '';
 		    return '<img src="https://serebii.net/pokedex-bw/type/' + type + '.gif">';
 		}
 
-		function Pokemon(user) {
+		function ppokemon(user) {
 		    let poke = Sb("pokemon").get(user);
 		    if (!Sb("pokemon").has(user)) return '';
 		    return '' + poke + '';
