@@ -134,4 +134,4 @@ exports.commands = {
 			'To make a wheel talk to a global staff member.');
 		},
 	},
-}; 
+};
