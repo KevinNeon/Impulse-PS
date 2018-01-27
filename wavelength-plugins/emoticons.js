@@ -74,7 +74,7 @@ exports.commands = {
 			emoticons[parts[0]] = parts[1];
 			saveEmoticons();
 			this.sendReply(`|raw|The emoticon "${Chat.escapeHTML(parts[0])}" has been added: <img src="${parts[1]}" width="40" height="40">`);
-			Rooms('upperstaff').add(`|raw|${WL.nameColor(user.name, true)} has added the emote "${Chat.escapeHTML(parts[0])}": <img width="40" height="40" src="${parts[1]}">`).update();
+			//Rooms('upperstaff').add(`|raw|${WL.nameColor(user.name, true)} has added the emote "${Chat.escapeHTML(parts[0])}": <img width="40" height="40" src="${parts[1]}">`).update();
 			WL.messageSeniorStaff(`/html ${WL.nameColor(user.name, true)} has added the emote "${Chat.escapeHTML(parts[0])}": <img width="40" height="40" src="${parts[1]}">`);
 		},
 

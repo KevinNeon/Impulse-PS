@@ -943,7 +943,7 @@ class Tournament {
 		let tourSize = this.generator.users.size;
 
 		if ((tourSize >= sizeRequiredToEarn) && this.room.isOfficial) {
-			Db.tourladder.set(wid, 1);
+			Db.tourladder.set(wid, Db.tourladder.get(wid) + 1);
 			let firstMoney = Math.round(tourSize / 4);
 			if (firstMoney < 2) firstMoney = 2;
 			if (Db.userBadges.has(wid) && Db.userBadges.get(wid).indexOf('Tournament Champion') > -1) firstMoney = Math.ceil(firstMoney * 1.5);
@@ -1283,7 +1283,7 @@ let commands = {
 			}
 			if (tournament.disqualifyUser(targetUserid, this, reason)) {
 				this.privateModAction("(" + (targetUser.name || targetUserid) + " was disqualified from the tournament by " + user.name + (reason ? " (" + reason + ")" : "") + ")");
-				this.modlog('TOUR DQ', targetUser, reason, null);
+				this.modlog('TOUR DQ', targetUser, reason);
 			}
 		},
 		autostart: 'setautostart',

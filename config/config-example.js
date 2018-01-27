@@ -474,6 +474,7 @@ exports.grouplist = [
 		id: "voice",
 		name: "Voice",
 		inherit: ' ',
+		jurisdiction: 'u',
 		alts: 's',
 		broadcast: true,
 	},

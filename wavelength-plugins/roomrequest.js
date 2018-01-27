@@ -43,7 +43,7 @@ exports.commands = {
 			paid: false,
 		};
 		if (cmd !== 'confirmrequestroom') {
-			return this.sendReplyBox(`<center><h3>Please confirm your room request</h3><br/><a href="http://ps-wavelength.proboards.com/thread/36/wavelength-server-faq?page=1&scrollTo=174"><b>If you haven't already, read Wavelength's policy on Room Requests</b></a><br/><br/><b>Room Name</b>: ${curRequest.name}<br/><b>Room Type</b>: ${curRequest.type}<br/><b>Description</b>:${curRequest.desc}<br/>${hasRoom ? `<b>Since you already have a room, this will cost 50 ${global.currencyPlural}.</b><br/>(If the request is rejected or cancelled, you will be refunded.)<br/><br/>` : ``}<button name="send" value="/confirmrequestroom ${curRequest.name}, ${curRequest.type}, ${curRequest.desc}" class="button">Yes, this is correct</button><button class="button" name="receive" value="|c|~Wavelength Server|Request the room again, but with the changes you want to make to it.">No, I want to change something</button></center>`);
+			return this.sendReplyBox(`<center><h3>Please confirm your room request</h3><br/><a href="http://ps-wavelength.proboards.com/thread/36/wavelength-server-faq?page=1&scrollTo=174"><b>If you haven't already, read Wavelength's policy on Room Requests</b></a><br/><br/><b>Room Name</b>: ${curRequest.name}<br/><b>Room Type</b>: ${curRequest.type}<br/><b>Description</b>:${curRequest.desc}<br/>${hasRoom ? `<b>Since you already have a room, this will cost 50 ${global.currencyPlural}.</b><br/>(If the request is rejected or cancelled, you will be refunded.)<br/><br/>` : ``}<button name="send" value="/confirmrequestroom ${curRequest.name}, ${curRequest.type}, ${curRequest.desc}" class="button">Yes, this is correct</button><button class="button" name="receive" value="|c|~Impulse Server|Request the room again, but with the changes you want to make to it.">No, I want to change something</button></center>`);
 		} else if (hasRoom) {
 			let funds = Economy.readMoney(user.userid);
 			if (funds < 50) return this.errorReply(`You need 50 ${global.currencyPlural} to get another chatroom`);
@@ -62,9 +62,9 @@ exports.commands = {
 		if (!user.can('roomowner') && user.userid !== target) return this.errorReply(`/checkroomrequest -  Access Denied for viewing requests for other users.`);
 		let curRequest = Db.rooms.get(target);
 		if (!curRequest || curRequest.blacklisted) return this.errorReply(`${(target === user.userid ? "You don't " : target + " does not ")} have a pending room request.`);
-		let output = `<center><h1>Wavelength Room Request</h1></center><b>Requester</b>: ${target} <br/><b>Room Name</b>: ${curRequest.name}<br/><b>Room Type</b>: ${curRequest.type}<br/><b>Description</b>: ${curRequest.desc}<br/>${curRequest.paid ? `This room has been paid for since ${user.userid === target ? `you already own a chatroom` : `the requester already owns a chatroom`}.<br/>` : ``}`;
+		let output = `<center><h1>' + Config.serverName + ' Room Request</h1></center><b>Requester</b>: ${target} <br/><b>Room Name</b>: ${curRequest.name}<br/><b>Room Type</b>: ${curRequest.type}<br/><b>Description</b>: ${curRequest.desc}<br/>${curRequest.paid ? `This room has been paid for since ${user.userid === target ? `you already own a chatroom` : `the requester already owns a chatroom`}.<br/>` : ``}`;
 		if (user.userid === target) output += `<button class="button" name="send" value="/cancelroomrequest">Cancel this request</button><br/>`;
-		if (user.can('roomowner')) output += `${(curRequest.staff ? `The requester is a Wavelength global staff member` : (curRequest.trusted ? `The requester is a trusted user.` : ``))}`;
+		if (user.can('roomowner')) output += `${(curRequest.staff ? `The requester is a ' + Config.serverName + ' global staff member` : (curRequest.trusted ? `The requester is a trusted user.` : ``))}`;
 		this.sendReplyBox(output);
 	},
 	crr: 'cancelroomrequest',
