@@ -92,18 +92,7 @@ if (Config.watchconfig) {
 
 global.WL = {};
 
-// Using mongodb to store data with nef
-// global.Db = require('nef')(require('nef-mongo')('yourMongoURI'));
-
-// Using monodb to store data with origin db
-// global.Sb = require('origindb')('yourMongoURI', { adapter: 'mongo'});
-
 global.Db = require('nef')(require('nef-fs')('config/db'));
-
-// Opitional databases for impulse
-global.Sb = require('origindb')('config/sb');
-
-global.sqlite3 = require('sqlite3');
 
 global.Monitor = require('./monitor');
 
@@ -118,6 +107,7 @@ global.Users = require('./users');
 
 global.Punishments = require('./punishments');
 
+global.WL = require('./WL.js').WL;
 global.Chat = require('./chat');
 global.Rooms = require('./rooms');
 
@@ -126,8 +116,6 @@ global.Tells = require('./tells.js');
 delete process.send; // in case we're a child process
 global.Verifier = require('./verifier');
 Verifier.PM.spawn();
-
-global.WL = require('./WL.js').WL;
 
 global.Tournaments = require('./tournaments');
 
