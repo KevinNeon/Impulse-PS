@@ -941,7 +941,7 @@ class GlobalRoom extends BasicRoom {
 			const stackUS = (err ? Chat.escapeHTML(err.stack).split(`\n`).slice(0, 2).join(`.`) : ``);
 			const crashMessageUS = `**The server has crashed:** ${stackUS}`;
 			// @ts-ignore
-			WL.messageSeniorStaff(crashMessageUS, '~' + Config.serverName + ' Server');
+			WL.messageSeniorStaff(crashMessageUS, '~Wavelength Server');
 			return;
 		}
 		this.lastReportedCrash = time;
@@ -1485,9 +1485,6 @@ function getRoom(roomid) {
 
 /** @typedef {GlobalRoom | GameRoom | ChatRoom} Room */
 
-// workaround to stop TypeScript from checking room-battle
-let roomBattleLoc = './room-battle';
-
 let Rooms = Object.assign(getRoom, {
 	/**
 	 * The main roomid:Room table. Please do not hold a reference to a
@@ -1617,10 +1614,9 @@ let Rooms = Object.assign(getRoom, {
 
 	Roomlogs: Roomlogs,
 
-	RoomBattle: require(roomBattleLoc).RoomBattle,
-	RoomBattlePlayer: require(roomBattleLoc).RoomBattlePlayer,
-	SimulatorManager: require(roomBattleLoc).SimulatorManager,
-	SimulatorProcess: require(roomBattleLoc).SimulatorProcess,
+	RoomBattle: require('./room-battle').RoomBattle,
+	RoomBattlePlayer: require('./room-battle').RoomBattlePlayer,
+	PM: require('./room-battle').PM,
 });
 
 // initialize
