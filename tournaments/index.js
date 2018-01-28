@@ -943,7 +943,6 @@ class Tournament {
 		let tourSize = this.generator.users.size;
 
 		if ((tourSize >= sizeRequiredToEarn) && this.room.isOfficial) {
-			Db.tourladder.set(wid, Db.tourladder.get(wid) + 1);
 			let firstMoney = Math.round(tourSize / 4);
 			if (firstMoney < 2) firstMoney = 2;
 			if (Db.userBadges.has(wid) && Db.userBadges.get(wid).indexOf('Tournament Champion') > -1) firstMoney = Math.ceil(firstMoney * 1.5);
@@ -978,8 +977,11 @@ class Tournament {
 				this.room.addRaw("<b><font color='" + color + "'>" + Chat.escapeHTML(runnerUp) + "</font> has won " + "<font color='" + color + "'>" + secondMoney + "</font>" + (firstMoney === 1 ? global.currencyName : global.currencyPlural) + " for winning the tournament!</b>");
 			}
 
-			if ((tourSize >= sizeRequiredToEarn) && this.room.isOfficial) {
-			    WL.leagueTourPoints(toId(winner), toId(runnerUp), tourSize, this.room);
+			if (WL.getFaction(winner)) {
+				let factionName = WL.getFaction(winner);
+				let factionId = toId(factionName);
+				Db.factionbank.set(factionId, Db.factionbank.get(factionId, 0) + 10);
+				this.room.addRaw(`<strong>Congratulations to ${factionName}! Your faction has gained 10 faction money! To view it type /faction bank atm (faction) </strong>`);
 			}
 		}
 
@@ -989,7 +991,7 @@ class Tournament {
 			if (this.room.isOfficial) {
 				Users(this.players[i].userid).tourBoost = false;
 				Users(this.players[i].userid).gameBoost = false;
-				WL.addExp(this.players[i].userid, this.room, 20);
+				WL.ExpControl.addExp(this.players[i].userid, this.room, 20);
 			}
 			this.players[i].destroy();
 		}
