@@ -62,9 +62,9 @@ exports.commands = {
 		if (!user.can('roomowner') && user.userid !== target) return this.errorReply(`/checkroomrequest -  Access Denied for viewing requests for other users.`);
 		let curRequest = Db.rooms.get(target);
 		if (!curRequest || curRequest.blacklisted) return this.errorReply(`${(target === user.userid ? "You don't " : target + " does not ")} have a pending room request.`);
-		let output = `<center><h1>' + Config.serverName + ' Room Request</h1></center><b>Requester</b>: ${target} <br/><b>Room Name</b>: ${curRequest.name}<br/><b>Room Type</b>: ${curRequest.type}<br/><b>Description</b>: ${curRequest.desc}<br/>${curRequest.paid ? `This room has been paid for since ${user.userid === target ? `you already own a chatroom` : `the requester already owns a chatroom`}.<br/>` : ``}`;
+		let output = `<center><h1> ${Config.serverName} Room Request</h1></center><b>Requester</b>: ${target} <br/><b>Room Name</b>: ${curRequest.name}<br/><b>Room Type</b>: ${curRequest.type}<br/><b>Description</b>: ${curRequest.desc}<br/>${curRequest.paid ? `This room has been paid for since ${user.userid === target ? `you already own a chatroom` : `the requester already owns a chatroom`}.<br/>` : ``}`;
 		if (user.userid === target) output += `<button class="button" name="send" value="/cancelroomrequest">Cancel this request</button><br/>`;
-		if (user.can('roomowner')) output += `${(curRequest.staff ? `The requester is a ' + Config.serverName + ' global staff member` : (curRequest.trusted ? `The requester is a trusted user.` : ``))}`;
+		if (user.can('roomowner')) output += `${(curRequest.staff ? `The requester is a ${Config.serverName} global staff member` : (curRequest.trusted ? `The requester is a trusted user.` : ``))}`;
 		this.sendReplyBox(output);
 	},
 	crr: 'cancelroomrequest',
@@ -92,7 +92,7 @@ exports.commands = {
 		case '':
 		case 'view':
 			let requests = Db.rooms.keys();
-			let output = `<div class="infobox infobox-limited"><table><tr><th style="border: 1px solid" colspan="6"><b>Wavelength Room Requests</b></th></tr><tr><th style="border: 1px solid">Requester</th><th style="border: 1px solid">Room Name</th><th style="border: 1px solid">Room Type</th><th style="border: 1px solid">Description</th><th style="border: 1px solid">Status</th><th style="border: 1px solid">Options</th></tr>`;
+			let output = `<div class="infobox infobox-limited"><table><tr><th style="border: 1px solid" colspan="6"><b>${Config.serverName} Room Requests</b></th></tr><tr><th style="border: 1px solid">Requester</th><th style="border: 1px solid">Room Name</th><th style="border: 1px solid">Room Type</th><th style="border: 1px solid">Description</th><th style="border: 1px solid">Status</th><th style="border: 1px solid">Options</th></tr>`;
 			for (let i = 0; i < requests.length; i++) {
 				let cur = Db.rooms.get(requests[i]);
 				if (cur.blacklisted) {
